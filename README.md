@@ -111,9 +111,9 @@ Você pode acessar um **protótipo** completo da interface desejada para o proje
 
   - Projeto em grupo.
 
-  - Serão cinco dias de projeto.
+  - Serão `5` dias de projeto.
 
-  - Data de entrega para avaliação final do projeto: `dd/mm/yyyy - 14:00h`.
+  - Data de entrega para avaliação final do projeto: `18/08/2021 - 14:00h`.
 
 ---
 
