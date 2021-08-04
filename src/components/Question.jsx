@@ -23,8 +23,8 @@ class Question extends Component {
     const randomIndex = randomize(alternatives.length, alternatives.length - 1);
     return (
       <div className="question">
-        <h1 data-testid="question-category">{questions[0].category}</h1>
-        <p data-testid="question-text">{questions[0].question}</p>
+        <h1 data-testid="question-category">{question.category}</h1>
+        <p data-testid="question-text">{question.question}</p>
         <div className="alternatives">
           {randomIndex.map((index) => {
             const { correct, alt, index: i } = alternatives[index];
