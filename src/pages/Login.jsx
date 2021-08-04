@@ -44,7 +44,7 @@ class Login extends Component {
   render() {
     const { token } = this.props;
     const { email, playerName, validation, redirect } = this.state;
-    if (redirect && token) { return <Redirect to="/quiz" />; }
+    if (redirect && token) { return <Redirect to="/game" />; }
     return (
       <form onSubmit={ this.onSubmit }>
         <InputCard
