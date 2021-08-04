@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { func } from 'prop-types';
+import { func, string } from 'prop-types';
 import InputCard from '../components/InputCard';
 import fetchToken from '../redux/fetchs/fetchToken';
 
@@ -12,6 +12,7 @@ class Login extends Component {
       email: '',
       playerName: '',
       validation: true,
+      redirect: false,
     };
     this.onHandlerChange = this.onHandlerChange.bind(this);
     this.onValidation = this.onValidation.bind(this);
@@ -37,10 +38,13 @@ class Login extends Component {
     const { email, playerName } = this.state;
     const { getToken } = this.props;
     getToken({ email, playerName });
+    this.setState({ redirect: true });
   }
 
   render() {
-    const { email, playerName, validation } = this.state;
+    const { token } = this.props;
+    const { email, playerName, validation, redirect } = this.state;
+    if (redirect && token) { return <Redirect to="/quiz" />; }
     return (
       <form onSubmit={ this.onSubmit }>
         <InputCard
@@ -83,8 +87,13 @@ const mapDipatchToProps = (dispatch) => ({
   getToken: (data) => dispatch(fetchToken(data)),
 });
 
-export default connect(null, mapDipatchToProps)(Login);
+const mapStateToProps = (state) => ({
+  token: state.user.token,
+});
+
+export default connect(mapStateToProps, mapDipatchToProps)(Login);
 
 Login.propTypes = {
   getToken: func.isRequired,
+  token: string.isRequired,
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
-import fetchGravatar from '../redux/actions';
+import fetchGravatar from '../redux/fetchs/fetchGravatar';
 
 class Header extends React.Component {
   // componentDidMount() {
