@@ -27,7 +27,6 @@ class Question extends Component {
         <p data-testid="question-text">{questions[0].question}</p>
         <div className="alternatives">
           {randomIndex.map((index) => {
-            console.log(index);
             const { correct, alt, index: i } = alternatives[index];
             return (
               <button
