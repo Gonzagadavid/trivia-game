@@ -8,7 +8,6 @@ class Header extends React.Component {
   // componentDidMount() {
   //   const { email, pushFetch } = this.props;
   //   pushFetch('string@gmail.com');
-  // }
 
   render() {
     const { email, playerName } = this.props;
