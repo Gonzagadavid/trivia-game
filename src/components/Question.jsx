@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import fetchQuiz from '../redux/fetchs/fetchQuiz';
 import fetchToken from '../redux/fetchs/fetchToken';
+import randomize from '../functions/randomize';
 
 class Question extends Component {
   componentDidMount() {
@@ -14,27 +15,30 @@ class Question extends Component {
 
   render() {
     const { questions, loading } = this.props;
+    const [question] = questions;
     if (loading) { return <p>Loading...</p>; }
+    const alternatives = [
+      ...question.incorrect_answers.map((alt, index) => ({ correct: false, alt, index })),
+      { correct: true, alt: question.correct_answer }];
+    const randomIndex = randomize(alternatives.length, alternatives.length - 1);
     return (
       <div className="question">
         <h1 data-testid="question-category">{questions[0].category}</h1>
         <p data-testid="question-text">{questions[0].question}</p>
         <div className="alternatives">
-          {questions[0].incorrect_answers.map((alternative, index) => (
-            <button
-              type="button"
-              key={ alternative }
-              data-testid={ `wrong-answer${index}` }
-            >
-              {alternative}
-            </button>
-          ))}
-          <button
-            type="button"
-            data-testid="correct-answer"
-          >
-            {questions[0].correct_answer}
-          </button>
+          {randomIndex.map((index) => {
+            console.log(index);
+            const { correct, alt, index: i } = alternatives[index];
+            return (
+              <button
+                type="button"
+                key={ alt }
+                data-testid={ correct ? 'correct-answer' : `wrong-answer${i}` }
+              >
+                {alt}
+              </button>
+            );
+          })}
         </div>
       </div>
     );
