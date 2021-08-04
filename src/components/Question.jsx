@@ -9,12 +9,12 @@ class Question extends Component {
   componentDidMount() {
     const { getQuiz, token } = this.props;
     console.log(token);
-    const quantity = 1;
+    const quantity = 5;
     getQuiz(token, quantity);
   }
 
   render() {
-    const { questions, loading } = this.props;
+    const { questions, loading, timeout } = this.props;
     const [question] = questions;
     if (loading) { return <p>Loading...</p>; }
     const alternatives = [
@@ -30,6 +30,7 @@ class Question extends Component {
             const { correct, alt, index: i } = alternatives[index];
             return (
               <button
+                disabled={ timeout }
                 type="button"
                 key={ alt }
                 data-testid={ correct ? 'correct-answer' : `wrong-answer${i}` }
@@ -48,6 +49,7 @@ const mapStateToProps = (state) => ({
   token: state.user.token,
   questions: state.quiz.questions,
   loading: state.quiz.loading,
+  timeout: state.quiz.timeout,
 });
 
 const mapDispatchToProps = (dispatch) => ({
