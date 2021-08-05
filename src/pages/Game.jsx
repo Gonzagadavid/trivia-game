@@ -13,12 +13,8 @@ class Game extends Component {
   }
 
   componentDidMount() {
-    this.startTimer();
+    this.startTimer(0, true);
   }
-
-  // stopInterval(interval) {
-  //   ;
-  // }
 
   timer() {
     const { timeoutTrue, loading } = this.props;
@@ -36,12 +32,14 @@ class Game extends Component {
     }
   }
 
-  startTimer(sec = 0) {
+  startTimer(sec = 0, start) {
     const maxTime = 30;
     this.setState({ timer: maxTime + sec });
     const oneSec = 1000;
-    this.interval = setInterval(this.timer, oneSec);
-    this.timer();
+    if (start) {
+      this.interval = setInterval(this.timer, oneSec);
+      this.timer();
+    }
   }
 
   render() {

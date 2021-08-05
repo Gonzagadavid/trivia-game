@@ -32,8 +32,10 @@ class Question extends Component {
   }
 
   handleClickNext() {
-    const { timeoutFalse, startTimer } = this.props;
-    startTimer(1);
+    const { timeoutFalse, startTimer, timeout } = this.props;
+    if (timeout) {
+      startTimer(1, true);
+    } else { startTimer(0, false); }
     timeoutFalse();
     this.setState((state) => {
       const { questions } = this.props;
