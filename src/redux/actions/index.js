@@ -9,6 +9,7 @@ export const TIMEOUT_TRUE = 'TIMEOUT_TRUE';
 
 export const timeoutFalse = () => ({ type: TIMEOUT_FALSE });
 export const timeoutTrue = () => ({ type: TIMEOUT_TRUE });
+export const ADD_SETTING = 'ADD_SETTING';
 
 export const getQuiz = (payload) => ({ type: GET_QUIZ, payload });
 export const fetchingQuiz = () => ({ type: FETCHING_QUIZ });
@@ -17,4 +18,7 @@ export const fetchingQuiz = () => ({ type: FETCHING_QUIZ });
 export const getGravatar = (payload) => ({ type: FETCH_SUCCESS, payload });
 
 export const actionGetTokenSucess = (state) => ({ type: GET_TOKEN_SUCESS, state });
+
 export const actionGetTokenError = { type: GET_TOKEN_ERROR };
+
+export const actionAddSetting = (state) => ({ type: ADD_SETTING, state });
