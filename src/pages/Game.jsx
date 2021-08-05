@@ -3,9 +3,6 @@ import { connect } from 'react-redux';
 import { func, bool } from 'prop-types';
 import { Question, Header } from '../components/index';
 import { timeoutTrue as actionTimeoutTrue } from '../redux/actions';
-import { timeoutFalse as actionTimeoutFalse } from '../redux/actions';
-
-import fetchQuiz from '../redux/fetchs/fetchQuiz';
 
 class Game extends Component {
   constructor() {

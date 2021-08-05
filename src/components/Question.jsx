@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import Button from './button';
 import randomize from '../functions/randomize';
 import { timeoutFalse as actionTimeoutFalse } from '../redux/actions';
-import { timeoutTrue as actionTimeoutTrue } from '../redux/actions';
-
 
 class Question extends Component {
   constructor() {
