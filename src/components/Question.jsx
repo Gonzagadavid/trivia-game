@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from './button';
-import randomize from '../functions/randomize';
 import { timeoutFalse as actionTimeoutFalse } from '../redux/actions';
 
 class Question extends Component {
@@ -48,7 +47,7 @@ class Question extends Component {
 
   render() {
     const { button, showCorrect } = this.state;
-    const { loading, timeout, question } = this.props;
+    const { loading, timeout, question, randomIndex } = this.props;
     if (loading) { return <p>Loading...</p>; }
     const alternatives = [
       ...question.incorrect_answers
@@ -56,7 +55,6 @@ class Question extends Component {
       { correct: true,
         alt: question.correct_answer,
         isCorrect: 'correct-border' }];
-    const randomIndex = randomize(alternatives.length, alternatives.length - 1);
     return (
       <div className="question">
 
@@ -65,6 +63,7 @@ class Question extends Component {
 
         <div className="alternatives">
           {randomIndex.map((index) => {
+            if (!alternatives[index]) return;
             const { correct, alt, index: i, isCorrect } = alternatives[index];
             return (
               <button
@@ -105,6 +104,7 @@ Question.propTypes = {
   nextQuestion: PropTypes.func.isRequired,
   timeout: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
+  randomIndex: PropTypes.arrayOf('number').isRequired,
   question: PropTypes.shape({
     category: PropTypes.string,
     question: PropTypes.string,

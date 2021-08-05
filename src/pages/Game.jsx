@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom';
 import { Question, Header } from '../components/index';
 import { timeoutTrue as actionTimeoutTrue } from '../redux/actions';
 import fetchQuiz from '../redux/fetchs/fetchQuiz';
+import randomize from '../functions/randomize';
 
 class Game extends Component {
   constructor() {
@@ -15,18 +16,28 @@ class Game extends Component {
       question: { incorrect_answers: [] },
       score: 0,
       gameOver: false,
+      randomIndex: [],
 
     };
     this.timer = this.timer.bind(this);
     this.startTimer = this.startTimer.bind(this);
     this.checkQuestion = this.checkQuestion.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
+    this.completeRandomIndex = this.completeRandomIndex.bind(this);
   }
 
   componentDidMount() {
     const { getQuiz, token, amount, id } = this.props;
     this.startTimer(0, true);
     getQuiz(token, amount, id);
+    this.completeRandomIndex();
+  }
+
+  completeRandomIndex() {
+    const length = 4;
+    const qty = 3;
+    const randomIndex = randomize(length, qty);
+    this.setState({ randomIndex });
   }
 
   timer() {
@@ -69,6 +80,7 @@ class Game extends Component {
       const gameOver = position === questions.length;
       this.setState({ question: questions[position], gameOver });
     });
+    this.completeRandomIndex();
   }
 
   startTimer(sec = 0, start) {
@@ -82,7 +94,7 @@ class Game extends Component {
   }
 
   render() {
-    const { timer, gameOver, question, score } = this.state;
+    const { timer, gameOver, question, score, randomIndex } = this.state;
     const { questions } = this.props;
     if (gameOver) { return <Redirect to="/" />; }// redirecionar  para a pagina de rancking
     return (
@@ -95,6 +107,7 @@ class Game extends Component {
           checkQuestion={ this.checkQuestion }
           nextQuestion={ this.nextQuestion }
           question={ question }
+          randomIndex={ randomIndex }
         />
       </>
     );
