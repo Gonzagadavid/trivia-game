@@ -17,11 +17,12 @@ class Question extends Component {
   }
 
   handleClickButton({ target }) {
-    const { checkQuestion } = this.props;
+    const { checkQuestion, stopTimer } = this.props;
     const id = target.dataset.testid;
     if (id === 'correct-answer') checkQuestion();
     this.setState({ button: true });
     this.changeBorder();
+    stopTimer();
   }
 
   handleClickNext() {
@@ -95,6 +96,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Question);
 Question.propTypes = {
   timeoutFalse: PropTypes.func.isRequired,
   startTimer: PropTypes.func.isRequired,
+  stopTimer: PropTypes.func.isRequired,
   checkQuestion: PropTypes.func.isRequired,
   nextQuestion: PropTypes.func.isRequired,
   timeout: PropTypes.bool.isRequired,
