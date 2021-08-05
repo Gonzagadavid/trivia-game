@@ -5,6 +5,7 @@ import Button from './button';
 import fetchQuiz from '../redux/fetchs/fetchQuiz';
 import fetchToken from '../redux/fetchs/fetchToken';
 import randomize from '../functions/randomize';
+import { timeoutFalse } from '../redux/actions';
 
 class Question extends Component {
   constructor() {
@@ -21,7 +22,6 @@ class Question extends Component {
 
   componentDidMount() {
     const { getQuiz, token } = this.props;
-    console.log(token);
     const quantity = 300;
     getQuiz(token, quantity);
   }
@@ -32,6 +32,9 @@ class Question extends Component {
   }
 
   handleClickNext() {
+    const { timeoutFalse, startTimer } = this.props;
+    startTimer(1);
+    timeoutFalse();
     this.setState((state) => {
       const { questions } = this.props;
       if (state.pergunta >= questions.length - 1) {
@@ -56,7 +59,7 @@ class Question extends Component {
 
   render() {
     const { button, pergunta, showCorrect } = this.state;
-    const { questions, loading } = this.props;
+    const { questions, loading, timeout } = this.props;
     if (loading) { return <p>Loading...</p>; }
     const alternatives = [
       ...questions[pergunta].incorrect_answers
@@ -76,6 +79,7 @@ class Question extends Component {
             const { correct, alt, index: i, isCorrect } = alternatives[index];
             return (
               <button
+                disabled={ timeout }
                 type="button"
                 key={ alt }
                 data-testid={ correct ? 'correct-answer' : `wrong-answer${i}` }
@@ -86,7 +90,7 @@ class Question extends Component {
               </button>
             );
           })}
-          { button && <Button onClick={ this.handleClickNext } /> }
+          { (button || timeout) && <Button onClick={ this.handleClickNext } /> }
         </div>
 
       </div>
@@ -98,11 +102,13 @@ const mapStateToProps = (state) => ({
   token: state.user.token,
   questions: state.quiz.questions,
   loading: state.quiz.loading,
+  timeout: state.quiz.timeout,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getToken: () => dispatch(fetchToken()),
   getQuiz: (token, quantity) => dispatch(fetchQuiz(token, quantity)),
+  timeoutFalse: () => dispatch(timeoutFalse()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Question);

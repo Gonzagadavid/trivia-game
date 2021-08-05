@@ -1,4 +1,4 @@
-import { FETCHING_QUIZ, GET_QUIZ, TIMEOUT_FALSE, TIMEOUT_TRUE } from '../actions';
+import { FETCHING_QUIZ, GET_QUIZ, TIMEOUT_FALSE, TIMEOUT_TRUE } from '../actions/index';
 
 const INITIAL_STATE = {
   questions: [],

@@ -1,14 +1,73 @@
 import React, { Component } from 'react';
-import { Question, Header, Timer } from '../components/index';
+import { connect } from 'react-redux';
+import { func, bool } from 'prop-types';
+import { Question, Header } from '../components/index';
+import { timeoutTrue as actionTimeoutTrue } from '../redux/actions';
 
-export default class Game extends Component {
+class Game extends Component {
+  constructor() {
+    super();
+    this.state = { timer: 30 };
+    this.timer = this.timer.bind(this);
+    this.startTimer = this.startTimer.bind(this);
+  }
+
+  componentDidMount() {
+    this.startTimer();
+  }
+
+  // stopInterval(interval) {
+  //   ;
+  // }
+
+  timer() {
+    const { timeoutTrue, loading } = this.props;
+    if (!loading) {
+      this.setState((prev) => {
+        if (prev.timer === 0) {
+          clearInterval(this.interval);
+          timeoutTrue();
+          return;
+        }
+        return ({
+          timer: prev.timer - 1,
+        });
+      });
+    }
+  }
+
+  startTimer(sec = 0) {
+    const maxTime = 30;
+    this.setState({ timer: maxTime + sec });
+    const oneSec = 1000;
+    this.interval = setInterval(this.timer, oneSec);
+    this.timer();
+  }
+
   render() {
+    const { timer } = this.state;
     return (
       <>
         <Header />
-        <Timer />
-        <Question />
+        <p>{timer}</p>
+        <Question startTimer={ this.startTimer } />
       </>
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  timeoutTrue: () => dispatch(actionTimeoutTrue()),
+});
+
+const mapStateToProps = (state) => ({
+  loading: state.quiz.loading,
+  timeout: state.quiz.timeout,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
+
+Game.propTypes = {
+  timeoutTrue: func.isRequired,
+  loading: bool.isRequired,
+};
