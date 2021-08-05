@@ -18,31 +18,26 @@ class Question extends Component {
     this.changeBorder = this.changeBorder.bind(this);
   }
 
-  handleClickButton() {
+  handleClickButton({ target }) {
+    const { checkQuestion } = this.props;
+    const resp = target.innerHTML;
+    checkQuestion(resp);
     this.setState({ button: true });
     this.changeBorder();
   }
 
   handleClickNext() {
-    const { timeoutFalse, startTimer, timeout } = this.props;
+    const { timeoutFalse, startTimer, timeout, nextQuestion } = this.props;
     if (timeout) {
       startTimer(1, true);
     } else { startTimer(0, false); }
     timeoutFalse();
-    this.setState((state) => {
-      const { questions } = this.props;
-      if (state.pergunta >= questions.length - 1) {
-        return ({
-          button: false,
-          showCorrect: false,
-        });
-      }
-      return ({
-        pergunta: state.pergunta + 1,
-        button: false,
-        showCorrect: false,
-      });
-    });
+    nextQuestion();
+    this.setState((state) => ({
+      pergunta: state.pergunta + 1,
+      button: false,
+      showCorrect: false,
+    }));
   }
 
   changeBorder() {
@@ -52,21 +47,21 @@ class Question extends Component {
   }
 
   render() {
-    const { button, pergunta, showCorrect } = this.state;
-    const { questions, loading, timeout } = this.props;
+    const { button, showCorrect } = this.state;
+    const { loading, timeout, question } = this.props;
     if (loading) { return <p>Loading...</p>; }
     const alternatives = [
-      ...questions[pergunta].incorrect_answers
+      ...question.incorrect_answers
         .map((alt, index) => ({ correct: false, alt, index, isCorrect: 'wrong-answer' })),
       { correct: true,
-        alt: questions[pergunta].correct_answer,
+        alt: question.correct_answer,
         isCorrect: 'correct-border' }];
     const randomIndex = randomize(alternatives.length, alternatives.length - 1);
     return (
       <div className="question">
 
-        <h1 data-testid="question-category">{questions[pergunta].category}</h1>
-        <p data-testid="question-text">{questions[pergunta].question}</p>
+        <h1 data-testid="question-category">{question.category}</h1>
+        <p data-testid="question-text">{question.question}</p>
 
         <div className="alternatives">
           {randomIndex.map((index) => {
@@ -98,24 +93,22 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  timeoutTrue: () => dispatch(actionTimeoutTrue()),
   timeoutFalse: () => dispatch(actionTimeoutFalse()),
 });
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Question);
 
 Question.propTypes = {
   timeoutFalse: PropTypes.func.isRequired,
   startTimer: PropTypes.func.isRequired,
+  checkQuestion: PropTypes.func.isRequired,
+  nextQuestion: PropTypes.func.isRequired,
   timeout: PropTypes.bool.isRequired,
-  getQuiz: PropTypes.func.isRequired,
-  token: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
-  questions: PropTypes.arrayOf(PropTypes.shape({
+  question: PropTypes.shape({
     category: PropTypes.string,
     question: PropTypes.string,
     correct_answer: PropTypes.string,
     incorrect_answers: PropTypes.arrayOf(PropTypes.string),
-  })).isRequired,
+  }).isRequired,
 };

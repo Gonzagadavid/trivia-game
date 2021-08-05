@@ -10,13 +10,14 @@ class Header extends React.Component {
   //   pushFetch('string@gmail.com');
 
   render() {
-    const { email, playerName } = this.props;
+    const { email, playerName, score } = this.props;
     const fechamento = md5(email.toLowerCase().trim()).toString();
+    console.log(fechamento);
     return (
       <header>
         <img src={ `https://www.gravatar.com/avatar/${fechamento}` } alt="" data-testid="header-profile-picture" />
         <p data-testid="header-player-name">{ playerName }</p>
-        <p data-testid="header-score">0</p>
+        <p data-testid="header-score">{score}</p>
       </header>
 
     );
@@ -37,5 +38,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(Header);
 Header.propTypes = {
   email: PropTypes.string.isRequired,
   playerName: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
   // pushFetch: PropTypes.func.isRequired,
 };
