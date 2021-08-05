@@ -17,6 +17,7 @@ class Game extends Component {
       score: 0,
       gameOver: false,
       randomIndex: [],
+      assertions: 0,
 
     };
     this.timer = this.timer.bind(this);
@@ -58,18 +59,26 @@ class Game extends Component {
     }
   }
 
-  checkQuestion(resp) {
-    const scoreTable = { hard: 3, medium: 2, easy: 1 };
-    const { question, timer } = this.state;
-    const { correct_answer: correct, difficulty } = question;
-    const pointsSum = 10;
-    const points = pointsSum + (timer * scoreTable[difficulty]);
-    const result = resp === correct;
-    this.setState(({ score }) => ({ score: result ? score + points : score }), () => {
-      if (!result) return;
-      const { score } = this.state;
-      const player = JSON.parse(localStorage.getItem('player'));
-      localStorage.setItem('player', JSON.stringify({ ...player, score }));
+  checkQuestion() {
+    this.setState((prevState) => {
+      const hard = 3;
+      const { question, timer, score, assertions } = prevState;
+      const { difficulty } = question;
+      const level = difficulty === 'hard' ? hard : 2;
+      const pointsSum = 10;
+      const points = timer * (difficulty === 'hard' ? 1 : level) + score + pointsSum;
+      const state = JSON.parse(localStorage.getItem('state')) || {};
+      const local = JSON.stringify(
+        { player: { ...state.player, score: points, assertions } },
+      );
+      localStorage.setItem(
+        'state',
+        local,
+      );
+      return ({
+        score: points,
+        assertions: assertions + 1,
+      });
     });
   }
 

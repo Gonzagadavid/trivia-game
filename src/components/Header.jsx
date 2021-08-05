@@ -12,7 +12,6 @@ class Header extends React.Component {
   render() {
     const { email, playerName, score } = this.props;
     const fechamento = md5(email.toLowerCase().trim()).toString();
-    console.log(fechamento);
     return (
       <header>
         <img src={ `https://www.gravatar.com/avatar/${fechamento}` } alt="" data-testid="header-profile-picture" />
@@ -30,7 +29,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => ({
   email: state.user.email,
-  playerName: state.user.name,
+  playerName: state.user.playerName,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

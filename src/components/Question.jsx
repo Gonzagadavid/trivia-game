@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Button from './button';
+import Button from './Button';
 import { timeoutFalse as actionTimeoutFalse } from '../redux/actions';
 
 class Question extends Component {
@@ -9,7 +9,6 @@ class Question extends Component {
     super();
     this.state = {
       button: false,
-      pergunta: 0,
       showCorrect: false,
     };
     this.handleClickButton = this.handleClickButton.bind(this);
@@ -19,8 +18,8 @@ class Question extends Component {
 
   handleClickButton({ target }) {
     const { checkQuestion } = this.props;
-    const resp = target.innerHTML;
-    checkQuestion(resp);
+    const id = target.dataset.testid;
+    if (id === 'correct-answer') checkQuestion();
     this.setState({ button: true });
     this.changeBorder();
   }
@@ -32,11 +31,7 @@ class Question extends Component {
     } else { startTimer(0, false); }
     timeoutFalse();
     nextQuestion();
-    this.setState((state) => ({
-      pergunta: state.pergunta + 1,
-      button: false,
-      showCorrect: false,
-    }));
+    this.setState({ button: false, showCorrect: false });
   }
 
   changeBorder() {
@@ -69,7 +64,7 @@ class Question extends Component {
               <button
                 disabled={ timeout }
                 type="button"
-                key={ alt }
+                key={ index }
                 data-testid={ correct ? 'correct-answer' : `wrong-answer${i}` }
                 onClick={ this.handleClickButton }
                 className={ showCorrect ? isCorrect : '' }
@@ -104,7 +99,7 @@ Question.propTypes = {
   nextQuestion: PropTypes.func.isRequired,
   timeout: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
-  randomIndex: PropTypes.arrayOf('number').isRequired,
+  randomIndex: PropTypes.arrayOf(PropTypes.number).isRequired,
   question: PropTypes.shape({
     category: PropTypes.string,
     question: PropTypes.string,
