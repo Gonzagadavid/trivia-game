@@ -5,7 +5,7 @@ import Button from './button';
 import fetchQuiz from '../redux/fetchs/fetchQuiz';
 import fetchToken from '../redux/fetchs/fetchToken';
 import randomize from '../functions/randomize';
-import { timeoutFalse } from '../redux/actions';
+import { timeoutFalse as actionTimeoutFalse } from '../redux/actions';
 
 class Question extends Component {
   constructor() {
@@ -108,12 +108,15 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getToken: () => dispatch(fetchToken()),
   getQuiz: (token, quantity) => dispatch(fetchQuiz(token, quantity)),
-  timeoutFalse: () => dispatch(timeoutFalse()),
+  timeoutFalse: () => dispatch(actionTimeoutFalse()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Question);
 
 Question.propTypes = {
+  timeoutFalse: PropTypes.func.isRequired,
+  startTimer: PropTypes.func.isRequired,
+  timeout: PropTypes.bool.isRequired,
   getQuiz: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
