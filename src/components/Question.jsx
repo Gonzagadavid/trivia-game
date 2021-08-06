@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import Button from './Button';
 import { timeoutFalse as actionTimeoutFalse } from '../redux/actions';
 
+// &quot; ""
+// &#039; ''
+
 class Question extends Component {
   constructor() {
     super();
@@ -41,21 +44,43 @@ class Question extends Component {
     });
   }
 
+  decodeHtmlEntities(string) {
+    return string
+      .replace(/&apos;/g, '\'')
+      .replace(/&quot;/g, '"')
+      .replace(/&gt;/g, '>')
+      .replace(/&lt;/g, '<')
+      .replace(/&amp;/g, '&')
+      .replace(/&#039;/g, '\'')
+      .replace(/&aacute;/g, 'á')
+      .replace(/&eacute;/g, 'é')
+      .replace(/&iacute;/g, 'í')
+      .replace(/&oacute;/g, 'ó')
+      .replace(/&uacute;/g, 'ú')
+      .replace(/&ouml;/g, 'ö')
+      .replace(/&uuml;/g, 'ü')
+      .replace(/&lrm;/g, '');
+  }
+
   render() {
     const { button, showCorrect } = this.state;
     const { loading, timeout, question, randomIndex } = this.props;
     if (loading) { return <p>Loading...</p>; }
-    const alternatives = [
+    const alternatives = question.correct_answer ? [
       ...question.incorrect_answers
-        .map((alt, index) => ({ correct: false, alt, index, isCorrect: 'wrong-answer' })),
+        .map((alt, index) => ({ correct: false,
+          alt,
+          index,
+          isCorrect: 'wrong' })),
       { correct: true,
         alt: question.correct_answer,
-        isCorrect: 'correct-border' }];
+        isCorrect: 'correct' }] : [];
     return (
       <div className="question">
 
         <h1 data-testid="question-category">{question.category}</h1>
-        <p data-testid="question-text">{question.question}</p>
+        { question.question
+        && <p data-testid="question-text">{question.question}</p> }
 
         <div className="alternatives">
           {randomIndex.map((index) => {
