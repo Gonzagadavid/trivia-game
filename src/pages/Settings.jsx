@@ -36,13 +36,11 @@ class Settings extends Component {
       const resp = await fetch('https://opentdb.com/api_category.php');
       if (!resp.ok) this.setState({ error: 'ocorreu um erro com a requisição' });
       const { trivia_categories: categoriesData } = await resp.json();
-      console.log(categoriesData);
       this.setState({ categoriesData, loading: false });
     });
   }
 
-  addSetting(event) {
-    event.preventDefault();
+  addSetting() {
     const { dispatchSetting } = this.props;
     const { category, categoriesData, amount } = this.state;
     const { id } = categoriesData.find(({ name }) => name === category);
@@ -59,7 +57,7 @@ class Settings extends Component {
           <h1 data-testid="settings-title"> Configurações </h1>
           {error ? <p>error</p> : ''}
         </header>
-        <form onSubmit={ this.addSetting }>
+        <form>
           <Select
             labelText="Selecione uma categoria"
             id="category-input"
@@ -76,7 +74,9 @@ class Settings extends Component {
             value={ amount }
             onChange={ this.onHandlerChange }
           />
-          <Link to="/"><button type="submit">Aplicar</button></Link>
+          <Link to="/">
+            <button type="button" onClick={ this.addSetting }>Aplicar</button>
+          </Link>
         </form>
       </>
     );
