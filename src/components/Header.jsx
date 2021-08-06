@@ -3,15 +3,18 @@ import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
 import fetchGravatar from '../redux/fetchs/fetchGravatar';
+import { saveImgUrl } from '../redux/actions';
 
 class Header extends React.Component {
   render() {
-    const { email, playerName } = this.props;
-    const fechamento = md5(email.toLowerCase().trim()).toString();
+    const { email, playerName, saveImg } = this.props;
+    const hash = md5(email.toLowerCase().trim()).toString();
+    const IMG_URL = `https://www.gravatar.com/avatar/${hash}`;
+    saveImg(IMG_URL);
     const { player: { score } } = JSON.parse(localStorage.getItem('state'));
     return (
       <header>
-        <img src={ `https://www.gravatar.com/avatar/${fechamento}` } alt="" data-testid="header-profile-picture" />
+        <img src={ IMG_URL } alt="" data-testid="header-profile-picture" />
         <p data-testid="header-player-name">{ playerName }</p>
         <p data-testid="header-score">{score}</p>
       </header>
@@ -22,6 +25,7 @@ class Header extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   pushFetch: (state) => dispatch(fetchGravatar(state)),
+  saveImg: (url) => dispatch(saveImgUrl(url)),
 });
 
 const mapStateToProps = (state) => ({
@@ -33,5 +37,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(Header);
 
 Header.propTypes = {
   email: PropTypes.string.isRequired,
+  saveImg: PropTypes.func.isRequired,
   playerName: PropTypes.string.isRequired,
 };

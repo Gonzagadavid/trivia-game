@@ -89,10 +89,17 @@ class Game extends Component {
   }
 
   nextQuestion() {
-    const { questions } = this.props;
+    const { questions, picture, name } = this.props;
     this.setState(({ position }) => ({ position: position + 1 }), () => {
       const { position } = this.state;
       const gameOver = position === questions.length;
+      if (gameOver) {
+        const { player: { score } } = JSON.parse(localStorage.getItem('state'));
+        const ranking = JSON.parse(localStorage.getItem('ranking'));
+        const updatedRanking = JSON
+          .stringify([...ranking, { name, score, picture }]);
+        localStorage.setItem('ranking', updatedRanking);
+      }
       this.setState({ question: questions[position], gameOver });
     });
     this.completeRandomIndex();
@@ -142,6 +149,8 @@ const mapStateToProps = (state) => ({
   questions: state.quiz.questions,
   loading: state.quiz.loading,
   timeout: state.quiz.timeout,
+  picture: state.user.picture,
+  name: state.user.playerName,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
@@ -151,6 +160,8 @@ Game.propTypes = {
   loading: bool.isRequired,
   getQuiz: func.isRequired,
   token: string.isRequired,
+  name: string.isRequired,
+  picture: string.isRequired,
   amount: number.isRequired,
   id: number.isRequired,
   questions: arrayOf(shape({

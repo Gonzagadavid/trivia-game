@@ -6,6 +6,7 @@ const fetchToken = () => async (dispatch) => {
   const respObject = await resp.json();
   const { token } = respObject;
   localStorage.setItem('token', JSON.stringify(token));
+  if (!localStorage.ranking)localStorage.setItem('ranking', JSON.stringify([]));
   dispatch(actionGetTokenSucess({ token }));
 };
 
