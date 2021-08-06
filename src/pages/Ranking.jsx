@@ -8,15 +8,16 @@ class Ranking extends Component {
       <div className="ranking">
         <h1 data-testid="ranking-title">Ranking</h1>
         <ul>
-          {ranking.map(({ name, score, picture }, index) => (
-            <li key={ name } data-index={ `player-name-${index}` }>
-              <img src={ picture } alt={ name } />
-              {name}
-              :
-              {' '}
-              <span data-testid={ `player-score-${index}` }>{score}</span>
-            </li>
-          ))}
+          {ranking.sort((a, b) => b.score - a.score)
+            .map(({ name, score, picture }, index) => (
+              <li key={ name } data-testid={ `player-name-${index}` }>
+                <img src={ picture } alt={ name } />
+                {name}
+                :
+                {' '}
+                <span data-testid={ `player-score-${index}` }>{score}</span>
+              </li>
+            ))}
         </ul>
       </div>
     );
