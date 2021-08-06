@@ -5,13 +5,10 @@ import PropTypes from 'prop-types';
 import fetchGravatar from '../redux/fetchs/fetchGravatar';
 
 class Header extends React.Component {
-  // componentDidMount() {
-  //   const { email, pushFetch } = this.props;
-  //   pushFetch('string@gmail.com');
-
   render() {
-    const { email, playerName, score } = this.props;
+    const { email, playerName } = this.props;
     const fechamento = md5(email.toLowerCase().trim()).toString();
+    const { player: { score } } = JSON.parse(localStorage.getItem('state'));
     return (
       <header>
         <img src={ `https://www.gravatar.com/avatar/${fechamento}` } alt="" data-testid="header-profile-picture" />
@@ -37,6 +34,4 @@ export default connect(mapStateToProps, mapDispatchToProps)(Header);
 Header.propTypes = {
   email: PropTypes.string.isRequired,
   playerName: PropTypes.string.isRequired,
-  score: PropTypes.number.isRequired,
-  // pushFetch: PropTypes.func.isRequired,
 };
