@@ -1,7 +1,7 @@
 import { fetchingQuiz, getQuiz } from '../actions';
 
-const fetchQuiz = (token, quantity) => {
-  const URL = `https://opentdb.com/api.php?amount=${quantity}&token=${token}`;
+const fetchQuiz = (token, quantity, id) => {
+  const URL = `https://opentdb.com/api.php?category=${id}&amount=${quantity}&token=${token}`;
   return async (dispatch) => {
     dispatch(fetchingQuiz());
     const response = await fetch(URL);

@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Button from './button';
-import fetchQuiz from '../redux/fetchs/fetchQuiz';
-import fetchToken from '../redux/fetchs/fetchToken';
-import randomize from '../functions/randomize';
+import Button from './Button';
+import { timeoutFalse as actionTimeoutFalse } from '../redux/actions';
 
 class Question extends Component {
   constructor() {
     super();
     this.state = {
       button: false,
-      pergunta: 0,
       showCorrect: false,
     };
     this.handleClickButton = this.handleClickButton.bind(this);
@@ -19,33 +16,22 @@ class Question extends Component {
     this.changeBorder = this.changeBorder.bind(this);
   }
 
-  componentDidMount() {
-    const { getQuiz, token } = this.props;
-    console.log(token);
-    const quantity = 300;
-    getQuiz(token, quantity);
-  }
-
-  handleClickButton() {
+  handleClickButton({ target }) {
+    const { checkQuestion } = this.props;
+    const id = target.dataset.testid;
+    if (id === 'correct-answer') checkQuestion();
     this.setState({ button: true });
     this.changeBorder();
   }
 
   handleClickNext() {
-    this.setState((state) => {
-      const { questions } = this.props;
-      if (state.pergunta >= questions.length - 1) {
-        return ({
-          button: false,
-          showCorrect: false,
-        });
-      }
-      return ({
-        pergunta: state.pergunta + 1,
-        button: false,
-        showCorrect: false,
-      });
-    });
+    const { timeoutFalse, startTimer, timeout, nextQuestion } = this.props;
+    if (timeout) {
+      startTimer(1, true);
+    } else { startTimer(0, false); }
+    timeoutFalse();
+    nextQuestion();
+    this.setState({ button: false, showCorrect: false });
   }
 
   changeBorder() {
@@ -55,29 +41,30 @@ class Question extends Component {
   }
 
   render() {
-    const { button, pergunta, showCorrect } = this.state;
-    const { questions, loading } = this.props;
+    const { button, showCorrect } = this.state;
+    const { loading, timeout, question, randomIndex } = this.props;
     if (loading) { return <p>Loading...</p>; }
     const alternatives = [
-      ...questions[pergunta].incorrect_answers
+      ...question.incorrect_answers
         .map((alt, index) => ({ correct: false, alt, index, isCorrect: 'wrong-answer' })),
       { correct: true,
-        alt: questions[pergunta].correct_answer,
+        alt: question.correct_answer,
         isCorrect: 'correct-border' }];
-    const randomIndex = randomize(alternatives.length, alternatives.length - 1);
     return (
       <div className="question">
 
-        <h1 data-testid="question-category">{questions[pergunta].category}</h1>
-        <p data-testid="question-text">{questions[pergunta].question}</p>
+        <h1 data-testid="question-category">{question.category}</h1>
+        <p data-testid="question-text">{question.question}</p>
 
         <div className="alternatives">
           {randomIndex.map((index) => {
+            if (!alternatives[index]) return;
             const { correct, alt, index: i, isCorrect } = alternatives[index];
             return (
               <button
+                disabled={ timeout }
                 type="button"
-                key={ alt }
+                key={ index }
                 data-testid={ correct ? 'correct-answer' : `wrong-answer${i}` }
                 onClick={ this.handleClickButton }
                 className={ showCorrect ? isCorrect : '' }
@@ -86,7 +73,7 @@ class Question extends Component {
               </button>
             );
           })}
-          { button && <Button onClick={ this.handleClickNext } /> }
+          { (button || timeout) && <Button onClick={ this.handleClickNext } /> }
         </div>
 
       </div>
@@ -95,26 +82,28 @@ class Question extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  token: state.user.token,
-  questions: state.quiz.questions,
   loading: state.quiz.loading,
+  timeout: state.quiz.timeout,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getToken: () => dispatch(fetchToken()),
-  getQuiz: (token, quantity) => dispatch(fetchQuiz(token, quantity)),
+  timeoutFalse: () => dispatch(actionTimeoutFalse()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Question);
 
 Question.propTypes = {
-  getQuiz: PropTypes.func.isRequired,
-  token: PropTypes.string.isRequired,
+  timeoutFalse: PropTypes.func.isRequired,
+  startTimer: PropTypes.func.isRequired,
+  checkQuestion: PropTypes.func.isRequired,
+  nextQuestion: PropTypes.func.isRequired,
+  timeout: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
-  questions: PropTypes.arrayOf(PropTypes.shape({
+  randomIndex: PropTypes.arrayOf(PropTypes.number).isRequired,
+  question: PropTypes.shape({
     category: PropTypes.string,
     question: PropTypes.string,
     correct_answer: PropTypes.string,
     incorrect_answers: PropTypes.arrayOf(PropTypes.string),
-  })).isRequired,
+  }).isRequired,
 };

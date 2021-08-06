@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { func, string } from 'prop-types';
 import InputCard from '../components/InputCard';
 import fetchToken from '../redux/fetchs/fetchToken';
+import { actionSaveDataUser } from '../redux/actions';
 
 class Login extends Component {
   constructor() {
@@ -17,6 +18,11 @@ class Login extends Component {
     this.onHandlerChange = this.onHandlerChange.bind(this);
     this.onValidation = this.onValidation.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    const { getToken } = this.props;
+    getToken();
   }
 
   onValidation() {
@@ -36,9 +42,21 @@ class Login extends Component {
   onSubmit(event) {
     event.preventDefault();
     const { email, playerName } = this.state;
-    const { getToken } = this.props;
-    getToken({ email, playerName });
+    const { saveUser } = this.props;
+    saveUser({ email, playerName });
     this.setState({ redirect: true });
+    const state = JSON.parse(localStorage.getItem('state')) || {};
+    localStorage.setItem(
+      'state',
+      JSON.stringify({
+        player: {
+          ...state.player,
+          name: playerName,
+          gravatarEmail: email,
+          score: 0,
+          assertions: 0 },
+      }),
+    );
   }
 
   render() {
@@ -85,6 +103,8 @@ class Login extends Component {
 
 const mapDipatchToProps = (dispatch) => ({
   getToken: (data) => dispatch(fetchToken(data)),
+  saveUser: (data) => dispatch(actionSaveDataUser(data)),
+
 });
 
 const mapStateToProps = (state) => ({
@@ -95,5 +115,6 @@ export default connect(mapStateToProps, mapDipatchToProps)(Login);
 
 Login.propTypes = {
   getToken: func.isRequired,
+  saveUser: func.isRequired,
   token: string.isRequired,
 };
