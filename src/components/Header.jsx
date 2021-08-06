@@ -5,10 +5,6 @@ import PropTypes from 'prop-types';
 import fetchGravatar from '../redux/fetchs/fetchGravatar';
 
 class Header extends React.Component {
-  // componentDidMount() {
-  //   const { email, pushFetch } = this.props;
-  //   pushFetch('string@gmail.com');
-
   render() {
     const { email, playerName } = this.props;
     const fechamento = md5(email.toLowerCase().trim()).toString();
@@ -38,5 +34,4 @@ export default connect(mapStateToProps, mapDispatchToProps)(Header);
 Header.propTypes = {
   email: PropTypes.string.isRequired,
   playerName: PropTypes.string.isRequired,
-  // pushFetch: PropTypes.func.isRequired,
 };

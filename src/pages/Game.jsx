@@ -25,6 +25,7 @@ class Game extends Component {
     this.checkQuestion = this.checkQuestion.bind(this);
     this.nextQuestion = this.nextQuestion.bind(this);
     this.completeRandomIndex = this.completeRandomIndex.bind(this);
+    this.stopTimer = this.stopTimer.bind(this);
   }
 
   componentDidMount() {
@@ -41,14 +42,19 @@ class Game extends Component {
     this.setState({ randomIndex });
   }
 
+  stopTimer() {
+    const { timeoutTrue } = this.props;
+    clearInterval(this.interval);
+    timeoutTrue();
+  }
+
   timer() {
     const { position } = this.state;
-    const { timeoutTrue, loading, questions } = this.props;
+    const { loading, questions } = this.props;
     if (!loading) {
       this.setState((prev) => {
         if (prev.timer === 0) {
-          clearInterval(this.interval);
-          timeoutTrue();
+          this.stopTimer();
           return;
         }
         return ({
@@ -111,6 +117,7 @@ class Game extends Component {
         <Header score={ score } />
         <p>{timer}</p>
         <Question
+          stopTimer={ this.stopTimer }
           startTimer={ this.startTimer }
           questions={ questions }
           checkQuestion={ this.checkQuestion }
