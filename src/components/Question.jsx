@@ -4,9 +4,6 @@ import { connect } from 'react-redux';
 import Button from './Button';
 import { timeoutFalse as actionTimeoutFalse } from '../redux/actions';
 
-// &quot; ""
-// &#039; ''
-
 class Question extends Component {
   constructor() {
     super();
