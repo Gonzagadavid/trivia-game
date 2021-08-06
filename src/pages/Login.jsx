@@ -96,13 +96,6 @@ class Login extends Component {
             Settings
           </button>
         </Link>
-        <Link to="/ranking">
-          <button
-            type="button"
-          >
-            Ranking
-          </button>
-        </Link>
       </form>
     );
   }
