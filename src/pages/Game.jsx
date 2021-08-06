@@ -105,7 +105,7 @@ class Game extends Component {
   render() {
     const { timer, gameOver, question, score, randomIndex } = this.state;
     const { questions } = this.props;
-    if (gameOver) { return <Redirect to="/" />; }// redirecionar  para a pagina de rancking
+    if (gameOver) { return <Redirect to="/feedback" />; }
     return (
       <>
         <Header score={ score } />
