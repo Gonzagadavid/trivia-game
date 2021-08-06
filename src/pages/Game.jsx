@@ -88,6 +88,18 @@ class Game extends Component {
     });
   }
 
+  checkPlayer(ranking, name, score, picture) {
+    const checkPlayer = ranking
+      .some(({ name: n }) => n === name);
+    return !checkPlayer
+      ? [...ranking, { name, score, picture }]
+      : ranking.map((rank) => {
+        if (rank.name !== name) { return rank; }
+        rank.score = rank.score > score ? rank.score : score;
+        return rank;
+      });
+  }
+
   nextQuestion() {
     const { questions, picture, name } = this.props;
     this.setState(({ position }) => ({ position: position + 1 }), () => {
@@ -96,9 +108,8 @@ class Game extends Component {
       if (gameOver) {
         const { player: { score } } = JSON.parse(localStorage.getItem('state'));
         const ranking = JSON.parse(localStorage.getItem('ranking'));
-        const updatedRanking = JSON
-          .stringify([...ranking, { name, score, picture }]);
-        localStorage.setItem('ranking', updatedRanking);
+        const updatedRanking = this.checkPlayer(ranking, name, score, picture);
+        localStorage.setItem('ranking', JSON.stringify(updatedRanking));
       }
       this.setState({ question: questions[position], gameOver });
     });
