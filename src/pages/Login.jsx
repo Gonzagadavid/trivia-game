@@ -5,6 +5,7 @@ import { func, string } from 'prop-types';
 import InputCard from '../components/InputCard';
 import fetchToken from '../redux/fetchs/fetchToken';
 import { actionSaveDataUser } from '../redux/actions';
+import QuestionIcons from '../components/QuestionsIcons';
 
 class Login extends Component {
   constructor() {
@@ -64,39 +65,47 @@ class Login extends Component {
     const { email, playerName, validation, redirect } = this.state;
     if (redirect && token) { return <Redirect to="/game" />; }
     return (
-      <form onSubmit={ this.onSubmit }>
-        <InputCard
-          labelText="Nome:"
-          id="input-player-name"
-          name="playerName"
-          type="text"
-          value={ playerName }
-          onChange={ this.onHandlerChange }
-        />
-        <InputCard
-          labelText="Email:"
-          id="input-gravatar-email"
-          name="email"
-          type="texto"
-          value={ email }
-          onChange={ this.onHandlerChange }
-        />
-        <button
-          data-testid="btn-play"
-          type="submit"
-          disabled={ validation }
-        >
-          Jogar
-        </button>
+      <>
+        <QuestionIcons />
+        <img className="logo" src="./images/trivia.png" alt="trivia logo" />
         <Link to="/settings">
           <button
+            className="config-btn"
             data-testid="btn-settings"
             type="button"
           >
-            Settings
+            <i className="fas fa-cog" />
           </button>
         </Link>
-      </form>
+        <form className="login-form" onSubmit={ this.onSubmit }>
+          <InputCard
+            labelText="Nome"
+            id="input-player-name"
+            name="playerName"
+            type="text"
+            value={ playerName }
+            onChange={ this.onHandlerChange }
+          />
+          <InputCard
+            labelText="Email"
+            id="input-gravatar-email"
+            name="email"
+            type="texto"
+            value={ email }
+            onChange={ this.onHandlerChange }
+          />
+          <div className="buttons">
+            <button
+              className="login-btn"
+              data-testid="btn-play"
+              type="submit"
+              disabled={ validation }
+            >
+              Jogar
+            </button>
+          </div>
+        </form>
+      </>
     );
   }
 }
