@@ -7,9 +7,16 @@ class FeedBack extends Component {
     const { player: { assertions } } = JSON.parse(localStorage.getItem('state'));
     const three = 3;
     return (
-      <div>
+      <div className="feedback-container">
         <Header />
-        <p data-testid="feedback-text">
+        <p className="feedback-score">
+          Você acertou
+          {' '}
+          <span>{assertions}</span>
+          {' '}
+          perguntas.
+        </p>
+        <p className="feedback-text" data-testid="feedback-text">
           {assertions < three ? 'Podia ser melhor...' : 'Mandou bem!' }
         </p>
         <Link to="/ranking">

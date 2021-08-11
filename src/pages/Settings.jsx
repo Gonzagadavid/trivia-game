@@ -5,6 +5,7 @@ import { func } from 'prop-types';
 import InputCard from '../components/InputCard';
 import Select from '../components/Select';
 import { actionAddSetting } from '../redux/actions';
+import QuestionIcons from '../components/QuestionsIcons';
 
 class Settings extends Component {
   constructor() {
@@ -52,11 +53,11 @@ class Settings extends Component {
   render() {
     const { error, categoriesData, category, loading, amount } = this.state;
     const categories = categoriesData.map(({ name }) => name);
-    if (loading) return <p>Loading</p>;
+    if (loading) { return <img src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" alt="loading" />; }
     return (
-      <>
-        <header>
-          <h1 data-testid="settings-title"> Configurações </h1>
+      <div className="config-container">
+        <header className="header-config">
+          <h1 className="settings-title" data-testid="settings-title"> Configurações </h1>
           {error ? <p>error</p> : ''}
         </header>
         <form onSubmit={ this.addSetting }>
@@ -78,7 +79,8 @@ class Settings extends Component {
           />
           <Link to="/"><button type="submit">Aplicar</button></Link>
         </form>
-      </>
+        <QuestionIcons />
+      </div>
     );
   }
 }

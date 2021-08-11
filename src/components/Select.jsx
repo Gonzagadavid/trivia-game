@@ -7,7 +7,9 @@ const Select = (props) => {
   return (
     <label htmlFor={ id }>
       {labelText}
+      <br />
       <select
+        className="select-config"
         id={ id }
         data-testid={ id }
         value={ value }
