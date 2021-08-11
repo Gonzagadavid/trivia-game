@@ -9,6 +9,8 @@ const INITIAL_STATE = {
   email: '',
   amount: 5,
   id: 9,
+  difficulty: 'any difficulty',
+  type: 'any type',
 };
 
 const reducerUser = (state = INITIAL_STATE, action) => {
