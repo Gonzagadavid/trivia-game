@@ -56,7 +56,6 @@ class Question extends Component {
         isCorrect: 'correct' }] : [];
     return (
       <div className="question-container">
-
         <h1 data-testid="question-category" className="category">{question.category}</h1>
         { question.question
         && <p data-testid="question-text" className="question">{question.question}</p> }
@@ -72,7 +71,7 @@ class Question extends Component {
                   type="button"
                   data-testid={ correct ? 'correct-answer' : `wrong-answer${i}` }
                   onClick={ this.handleClickButton }
-                  className={ showCorrect ? isCorrect : '' }
+                  className={ showCorrect || timeout ? isCorrect : '' }
                 >
                   {alt}
                 </button>
