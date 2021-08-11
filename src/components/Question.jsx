@@ -44,43 +44,43 @@ class Question extends Component {
   render() {
     const { button, showCorrect } = this.state;
     const { loading, timeout, question, randomIndex } = this.props;
-    if (loading) { return <p>Loading...</p>; }
+    if (loading) { return <img src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" alt="loading" />; }
     const alternatives = question.correct_answer ? [
       ...question.incorrect_answers
         .map((alt, index) => ({ correct: false,
           alt,
           index,
-          isCorrect: 'wrong' })),
+          isCorrect: 'incorrect' })),
       { correct: true,
         alt: question.correct_answer,
         isCorrect: 'correct' }] : [];
     return (
-      <div className="question">
+      <div className="question-container">
 
-        <h1 data-testid="question-category">{question.category}</h1>
+        <h1 data-testid="question-category" className="category">{question.category}</h1>
         { question.question
-        && <p data-testid="question-text">{question.question}</p> }
+        && <p data-testid="question-text" className="question">{question.question}</p> }
 
         <div className="alternatives">
           {randomIndex.map((index) => {
             if (!alternatives[index]) return;
             const { correct, alt, index: i, isCorrect } = alternatives[index];
             return (
-              <button
-                disabled={ timeout }
-                type="button"
-                key={ index }
-                data-testid={ correct ? 'correct-answer' : `wrong-answer${i}` }
-                onClick={ this.handleClickButton }
-                className={ showCorrect ? isCorrect : '' }
-              >
-                {alt}
-              </button>
+              <div key={ index } className="alternative">
+                <button
+                  disabled={ timeout }
+                  type="button"
+                  data-testid={ correct ? 'correct-answer' : `wrong-answer${i}` }
+                  onClick={ this.handleClickButton }
+                  className={ showCorrect ? isCorrect : '' }
+                >
+                  {alt}
+                </button>
+              </div>
             );
           })}
-          { (button || timeout) && <Button onClick={ this.handleClickNext } /> }
         </div>
-
+        { (button || timeout) && <Button onClick={ this.handleClickNext } /> }
       </div>
     );
   }

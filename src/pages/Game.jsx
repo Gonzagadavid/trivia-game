@@ -130,10 +130,13 @@ class Game extends Component {
     const { timer, gameOver, question, score, randomIndex } = this.state;
     const { questions } = this.props;
     if (gameOver) { return <Redirect to="/feedback" />; }
+    const endingTimer = 11;
     return (
-      <>
+      <div className="game">
         <Header score={ score } />
-        <p>{timer}</p>
+        <div className={ `timer timer--${timer}` }>
+          <p className={ timer < endingTimer ? 'ending-timer' : '' }>{timer}</p>
+        </div>
         <Question
           stopTimer={ this.stopTimer }
           startTimer={ this.startTimer }
@@ -143,7 +146,7 @@ class Game extends Component {
           question={ question }
           randomIndex={ randomIndex }
         />
-      </>
+      </div>
     );
   }
 }
