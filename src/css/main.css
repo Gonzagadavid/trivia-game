@@ -609,12 +609,12 @@ body {
           align-items: center;
 }
 
-.feedback-container .feedback-score {
+.feedback-container .feedback-assertions {
   font-size: 30px;
   color: #1d1c1c;
 }
 
-.feedback-container .feedback-score span {
+.feedback-container .feedback-assertions span {
   font-size: 40px;
   color: #003D5B;
   font-weight: 600;
@@ -626,7 +626,14 @@ body {
   margin-top: 0;
 }
 
-.feedback-container button {
+.feedback-container .buttons {
+  width: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.feedback-container .buttons button {
   padding: 13px;
   border-radius: 5px;
   margin: 10px;
@@ -638,14 +645,18 @@ body {
   cursor: pointer;
 }
 
-.feedback-container button:hover {
+.feedback-container .buttons button:hover {
   background-color: #014161;
+}
+
+p.feedback-score {
+  display: none;
 }
 
 .config-container {
   background-color: #f0f0f0;
   width: 600px;
-  height: 60%;
+  padding: 2em 0 5em 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -677,7 +688,20 @@ body {
   font-size: 25px;
 }
 
-.config-container .select-config {
+.config-container form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.config-container form .select-config {
   width: 370px;
   font-size: 18px;
   padding: 10px;
@@ -687,7 +711,7 @@ body {
   margin: 15px 0;
 }
 
-.config-container input {
+.config-container form input {
   padding: 11px;
   height: 20px;
   width: 348px;
@@ -697,7 +721,7 @@ body {
   font-size: 18px;
 }
 
-.config-container button {
+.config-container form button {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -719,11 +743,11 @@ body {
   cursor: pointer;
 }
 
-.config-container button:hover {
+.config-container form button:hover {
   background-color: #014161;
 }
 
-.config-container a {
+.config-container form a {
   text-decoration: none;
 }
 

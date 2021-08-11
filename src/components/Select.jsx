@@ -20,6 +20,7 @@ const Select = (props) => {
           options.map((option) => <option key={ option }>{option}</option>)
         }
       </select>
+      <br />
     </label>
   );
 };

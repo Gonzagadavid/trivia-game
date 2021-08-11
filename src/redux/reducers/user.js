@@ -10,6 +10,8 @@ const INITIAL_STATE = {
   amount: 5,
   id: 9,
   picture: '',
+  difficulty: 'any difficulty',
+  type: 'any type',
 };
 
 const reducerUser = (state = INITIAL_STATE, action) => {

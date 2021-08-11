@@ -7,7 +7,7 @@
   justify-content: center;
   align-items: center;
 
-  .feedback-score {
+  .feedback-assertions {
     font-size: 30px;
     color: rgb(29, 28, 28);
 
@@ -24,19 +24,27 @@
     margin-top: 0;
   }
 
-  button {
-    padding: 13px;
-    border-radius: 5px;
-    margin: 10px;
-    width: 95%;
-    font-size: 20px;
-    border: none;
-    background-color: $blue;
-    color: white;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #014161;
+  .buttons {
+    width: auto;
+    display: flex;
+    button {
+      padding: 13px;
+      border-radius: 5px;
+      margin: 10px;
+      width: 95%;
+      font-size: 20px;
+      border: none;
+      background-color: $blue;
+      color: white;
+      cursor: pointer;
+  
+      &:hover {
+        background-color: #014161;
+      }
     }
   }
+}
+
+p.feedback-score {
+  display: none;
 }

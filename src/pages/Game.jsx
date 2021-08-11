@@ -29,9 +29,9 @@ class Game extends Component {
   }
 
   componentDidMount() {
-    const { getQuiz, token, amount, id } = this.props;
+    const { getQuiz, token, amount, id, difficulty, type } = this.props;
     this.startTimer(0, true);
-    getQuiz(token, amount, id);
+    getQuiz({ token, amount, id, difficulty, type });
     this.completeRandomIndex();
   }
 
@@ -75,7 +75,7 @@ class Game extends Component {
       const points = timer * (difficulty === 'hard' ? 1 : level) + score + pointsSum;
       const state = JSON.parse(localStorage.getItem('state')) || {};
       const local = JSON.stringify(
-        { player: { ...state.player, score: points, assertions } },
+        { player: { ...state.player, score: points, assertions: assertions + 1 } },
       );
       localStorage.setItem(
         'state',
@@ -153,13 +153,15 @@ class Game extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   timeoutTrue: () => dispatch(actionTimeoutTrue()),
-  getQuiz: (token, amount, id) => dispatch(fetchQuiz(token, amount, id)),
+  getQuiz: (data) => dispatch(fetchQuiz(data)),
 });
 
 const mapStateToProps = (state) => ({
   token: state.user.token,
   amount: state.user.amount,
   id: state.user.id,
+  difficulty: state.user.difficulty,
+  type: state.user.type,
   questions: state.quiz.questions,
   loading: state.quiz.loading,
   timeout: state.quiz.timeout,
@@ -176,6 +178,8 @@ Game.propTypes = {
   token: string.isRequired,
   name: string.isRequired,
   picture: string.isRequired,
+  type: string.isRequired,
+  difficulty: string.isRequired,
   amount: number.isRequired,
   id: number.isRequired,
   questions: arrayOf(shape({

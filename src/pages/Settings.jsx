@@ -11,11 +11,13 @@ class Settings extends Component {
   constructor() {
     super();
     this.state = {
-      error: '',
+      // error: '',
       categoriesData: [],
       category: 'General Knowledge',
       loading: true,
       amount: 5,
+      difficulty: 'any difficulty',
+      type: 'any type',
     };
 
     this.getCategory = this.getCategory.bind(this);
@@ -35,30 +37,27 @@ class Settings extends Component {
   getCategory() {
     this.setState({ loading: true }, async () => {
       const resp = await fetch('https://opentdb.com/api_category.php');
-      if (!resp.ok) this.setState({ error: 'ocorreu um erro com a requisição' });
+      // if (!resp.ok) this.setState({ error: 'ocorreu um erro com a requisição' });
       const { trivia_categories: categoriesData } = await resp.json();
-      console.log(categoriesData);
       this.setState({ categoriesData, loading: false });
     });
   }
 
-  addSetting(event) {
-    event.preventDefault();
+  addSetting() {
     const { dispatchSetting } = this.props;
-    const { category, categoriesData, amount } = this.state;
+    const { category, categoriesData, amount, difficulty, type } = this.state;
     const { id } = categoriesData.find(({ name }) => name === category);
-    dispatchSetting({ id, amount });
+    dispatchSetting({ id, amount, difficulty, type });
   }
 
   render() {
-    const { error, categoriesData, category, loading, amount } = this.state;
+    const { categoriesData, category, loading, amount, difficulty, type } = this.state;
     const categories = categoriesData.map(({ name }) => name);
     if (loading) { return <img src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif" alt="loading" />; }
     return (
       <div className="config-container">
         <header className="header-config">
           <h1 className="settings-title" data-testid="settings-title"> Configurações </h1>
-          {error ? <p>error</p> : ''}
         </header>
         <form onSubmit={ this.addSetting }>
           <Select
@@ -69,6 +68,22 @@ class Settings extends Component {
             change={ this.onHandlerChange }
             options={ categories }
           />
+          <Select
+            labelText="Selecione a dificuldade:"
+            id="difficulty-input"
+            name="difficulty"
+            value={ difficulty }
+            change={ this.onHandlerChange }
+            options={ ['any difficulty', 'easy', 'medium', 'hard'] }
+          />
+          <Select
+            labelText="Selecione um tipo de questão:"
+            id="type-input"
+            name="type"
+            value={ type }
+            change={ this.onHandlerChange }
+            options={ ['any type', 'multiple choice', 'true/false'] }
+          />
           <InputCard
             labelText="Quantidade de perguntas:"
             id="amount"
@@ -77,7 +92,9 @@ class Settings extends Component {
             value={ amount }
             onChange={ this.onHandlerChange }
           />
-          <Link to="/"><button type="submit">Aplicar</button></Link>
+          <Link to="/">
+            <button type="button" onClick={ this.addSetting }>Aplicar</button>
+          </Link>
         </form>
         <QuestionIcons />
       </div>

@@ -4,29 +4,40 @@ import Header from '../components/Header';
 
 class FeedBack extends Component {
   render() {
-    const { player: { assertions } } = JSON.parse(localStorage.getItem('state'));
+    const { player: { assertions, score } } = JSON.parse(localStorage.getItem('state'));
     const three = 3;
     return (
       <div className="feedback-container">
         <Header />
-        <p className="feedback-score">
+        <p className="feedback-assertions">
           Você acertou
           {' '}
-          <span>{assertions}</span>
+          <span data-testid="feedback-total-question">{assertions}</span>
           {' '}
           perguntas.
         </p>
         <p className="feedback-text" data-testid="feedback-text">
           {assertions < three ? 'Podia ser melhor...' : 'Mandou bem!' }
         </p>
-        <Link to="/ranking">
-          <button
-            type="button"
-            data-testid="btn-ranking"
-          >
-            Ver Ranking
-          </button>
-        </Link>
+        <p className="feedback-score" data-testid="feedback-total-score">{score}</p>
+        <div className="buttons">
+          <Link to="/ranking">
+            <button
+              type="button"
+              data-testid="btn-ranking"
+            >
+              Ver Ranking
+            </button>
+          </Link>
+          <Link to="/">
+            <button
+              data-testid="btn-play-again"
+              type="button"
+            >
+              Jogar novamente
+            </button>
+          </Link>
+        </div>
       </div>
     );
   }
