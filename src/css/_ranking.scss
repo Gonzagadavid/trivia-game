@@ -1,0 +1,78 @@
+.ranking {
+  width: 600px;
+  height: 70vh;
+  background-color: rgb(240, 240, 240);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 3px;
+  text-align: center;
+  padding: 50px 30px;
+  z-index: 1;
+
+  h1 {
+    font-size: 40px;
+    color: $black;
+  }
+
+  .title-ranking {
+    height: 90%;
+    overflow-y: scroll;
+  }
+
+  .ranking-list {
+    list-style-type: none;
+    margin: 0;
+    font-size: 25px;
+    color: $black;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    
+    li {
+      display: flex;
+      align-items: center;
+      margin: 15px 0;
+
+      img {
+        border-radius: 50%;
+        margin-right: 15px;
+        width: 70px;
+      }
+
+      .ranking-score {
+        margin-left: 10px;
+        font-weight: bold;
+        color: $blue;
+      }
+    }
+  }
+  
+  .question-marks {
+    z-index: -1;
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px;
+    border-radius: 5px;
+    height: 42px;
+    width: 370px;
+    font-size: 20px;
+    border: none;
+    background-color: $blue;
+    color: white;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #014161;
+    }
+  }
+
+  a {
+    align-self: center;
+    text-decoration: none;
+  }
+}

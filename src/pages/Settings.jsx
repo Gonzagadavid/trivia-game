@@ -5,7 +5,7 @@ import { func } from 'prop-types';
 import InputCard from '../components/InputCard';
 import Select from '../components/Select';
 import { actionAddSetting } from '../redux/actions';
-import QuestionIcons from '../components/QuestionsIcons';
+import QuestionIcons from '../components/QuestionIcons';
 
 class Settings extends Component {
   constructor() {
@@ -47,6 +47,8 @@ class Settings extends Component {
     const { dispatchSetting } = this.props;
     const { category, categoriesData, amount, difficulty, type } = this.state;
     const { id } = categoriesData.find(({ name }) => name === category);
+    const { player } = JSON.parse(localStorage.getItem('state'));
+    localStorage.setItem('state', JSON.stringify({ player: { ...player, amount } }));
     dispatchSetting({ id, amount, difficulty, type });
   }
 

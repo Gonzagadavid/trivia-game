@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { GraphicComponent } from 'stylized-graphic-component';
 import Header from '../components/Header';
+import style from '../assets/feedbackGraph';
 
 class FeedBack extends Component {
   render() {
-    const { player: { assertions, score } } = JSON.parse(localStorage.getItem('state'));
+    const { player: { assertions, score, amount } } = JSON
+      .parse(localStorage.getItem('state'));
     const three = 3;
     return (
       <div className="feedback-container">
@@ -20,6 +23,12 @@ class FeedBack extends Component {
           {assertions < three ? 'Podia ser melhor...' : 'Mandou bem!' }
         </p>
         <p className="feedback-score" data-testid="feedback-total-score">{score}</p>
+        <GraphicComponent
+          style={ style }
+          data={ { Assertions: assertions, Errors: amount - assertions } }
+          maxPercent="100%"
+          colors={ ['#76b041', '#db3a34'] }
+        />
         <div className="buttons">
           <Link to="/ranking">
             <button

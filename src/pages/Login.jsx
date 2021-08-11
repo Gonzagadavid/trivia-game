@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { func, string } from 'prop-types';
+import { func, string, number } from 'prop-types';
 import InputCard from '../components/InputCard';
 import fetchToken from '../redux/fetchs/fetchToken';
 import { actionSaveDataUser } from '../redux/actions';
-import QuestionIcons from '../components/QuestionsIcons';
+import QuestionIcons from '../components/QuestionIcons';
 
 class Login extends Component {
   constructor() {
@@ -43,7 +43,7 @@ class Login extends Component {
   onSubmit(event) {
     event.preventDefault();
     const { email, playerName } = this.state;
-    const { saveUser } = this.props;
+    const { saveUser, amount } = this.props;
     saveUser({ email, playerName });
     this.setState({ redirect: true });
     const state = JSON.parse(localStorage.getItem('state')) || {};
@@ -55,7 +55,9 @@ class Login extends Component {
           name: playerName,
           gravatarEmail: email,
           score: 0,
-          assertions: 0 },
+          assertions: 0,
+          amount,
+        },
       }),
     );
   }
@@ -118,6 +120,7 @@ const mapDipatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => ({
   token: state.user.token,
+  amount: state.user.amount,
 });
 
 export default connect(mapStateToProps, mapDipatchToProps)(Login);
@@ -126,4 +129,5 @@ Login.propTypes = {
   getToken: func.isRequired,
   saveUser: func.isRequired,
   token: string.isRequired,
+  amount: number.isRequired,
 };
