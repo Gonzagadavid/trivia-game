@@ -1,0 +1,185 @@
+@import 'base';
+
+.game {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(240, 240, 240);
+  width: 100%;
+  height: 100%;
+}
+
+// HEADER
+
+.header {
+  position: absolute;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 20px;
+  width: calc(100vw - 40px);
+  background-color: $blue;
+
+  .player-info {
+    display: flex;
+    width: 400px;
+    justify-content: flex-start;
+    align-items: center;
+    .profile-pic {
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+    }
+    
+    .name {
+      color: white;
+      font-size: 22px;
+      margin-left: 25px;
+    }
+  }
+
+  .score-container {
+    display: flex;
+    align-items: flex-end;
+  
+    .score {
+      color: $yellow;
+      font-size: 55px;
+      margin: 0 10px;
+    }
+  
+    .score-txt {
+      color: white;
+      font-size: 40px;
+      font-weight: 300;
+      margin-bottom: 9px;
+    }
+  }
+}
+
+
+/* TIMER */
+.timer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+  transition: .2s;
+  position: absolute;
+  right: 20px;
+  top: 140px;
+  @for $i from 30 through 0 {
+    $deg: 90deg + (3.6 * ($i * -3.33));
+
+    &--#{$i}{
+      $direction: if($i * 3.33 < 51, right, left);
+      $color: if($i * 3.33 < 51, $yellow, $blue);
+
+      background: linear-gradient(
+        to #{$direction},
+        #{$color} 50%,
+        transparent 50%,
+        transparent
+      ),
+      linear-gradient(#{$deg}, $blue 50%, $yellow 50%)
+    }
+  }
+
+  p {
+    font-size: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(240, 240, 240);
+    height: 170px;
+    width: 170px;
+    border-radius: 50%;
+    font-weight: 700;
+    color: $black;
+    &.ending-timer {
+      color: $red;
+    }
+  }
+}
+
+.question-container {
+  display: flex;
+  flex-direction: column;
+  height: 50%;
+  justify-content: space-around;
+  width: 70%;
+  max-width: 1200px;
+  
+  .category {
+    font-size: 40px;
+  }
+
+  .question {
+    font-size: 25px;
+    margin-bottom: 20%;
+  }
+
+  .alternatives {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    
+    .alternative {
+      width: 50%;
+
+      button {
+        padding: 15px;
+        margin: 10px;
+        width: 95%;
+        font-size: 20px;
+        border: none;
+        background-color: $blue;
+        color: white;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #014161
+        }
+
+        &:disabled {
+          color: rgba(42, 42, 42, 0.609);
+          cursor: default;
+          background-color: rgba(42, 42, 42, 0.144);
+        }
+
+        &.correct {
+          cursor: default;
+          background-color: $green;
+          color: white;
+        }
+
+        &.incorrect {
+          cursor: default;
+          background-color: $red;
+          color: white;
+        }
+      }
+    }
+  }
+  .next-btn {
+    cursor: pointer;
+    color: $black;
+    align-self: flex-end;
+    margin: 10px;
+    position: absolute;
+    font-size: 17px;
+    border: 3px solid rgba(107, 107, 107, 0.198);
+    background-color: rgb(246, 246, 246);
+    bottom: 10vh;
+    padding: 15px;
+    width: 120px;
+    transition: .2s;
+
+    &:hover {
+      background-color: rgb(235, 235, 235);
+    }
+  }
+}

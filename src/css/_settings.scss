@@ -1,0 +1,74 @@
+.config-container {
+  background-color: rgb(240, 240, 240);
+  width: 650px;
+  // height: auto
+  padding: 2em 0 5em 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 3px;
+  color: rgb(29, 28, 28);
+  z-index: 1;
+
+  .question-marks{
+    z-index: -1;
+  }
+
+  .settings-title {
+    font-size: 40px;
+    margin: 50px 0;
+  }
+  label {
+    font-size: 25px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .select-config {
+      width: 370px;
+      font-size: 18px;
+      padding: 10px;
+      border: none;
+      background-color: white;
+      border-radius: 3px;
+      margin: 15px 0;
+    }
+  
+    input {
+      padding: 11px;
+      height: 20px;
+      width: 348px;
+      border: none;
+      margin: 10px 0;
+      outline: none;
+      font-size: 18px;
+    }
+  
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 13px;
+      border-radius: 5px;
+      margin-top: 45px; 
+      height: 42px;
+      width: 370px;
+      font-size: 20px;
+      border: none;
+      background-color: $blue;
+      color: white;
+      cursor: pointer;
+  
+      &:hover {
+        background-color: #014161;
+      }
+    }
+  
+    a {
+      text-decoration: none;
+    }
+  }
+}
