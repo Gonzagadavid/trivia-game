@@ -66,8 +66,18 @@ class Login extends Component {
     const { token } = this.props;
     const { email, playerName, validation, redirect } = this.state;
     if (redirect && token) { return <Redirect to="/game" />; }
+    if (window.matchMedia('(max-width: 768px)').matches) {
+      return (
+        <>
+          <QuestionIcons />
+          <p className="mobile">
+            Entre pelo desktop para visualizar esta aplicação
+          </p>
+        </>
+      );
+    }
     return (
-      <>
+      <div className="login">
         <QuestionIcons />
         <img className="logo" src="./images/trivia.png" alt="trivia logo" />
         <Link to="/settings">
@@ -84,7 +94,6 @@ class Login extends Component {
             labelText="Nome"
             id="input-player-name"
             name="playerName"
-            type="text"
             value={ playerName }
             onChange={ this.onHandlerChange }
           />
@@ -107,7 +116,7 @@ class Login extends Component {
             </button>
           </div>
         </form>
-      </>
+      </div>
     );
   }
 }

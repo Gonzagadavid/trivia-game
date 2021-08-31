@@ -53,7 +53,7 @@
     "complexity": ["error", 8],
     "max-nested-callbacks": ["error", 2],
     "max-depth": ["error", 3],
-    "max-lines-per-function": ["error", 50],
+    "max-lines-per-function": ["error", 60],
     "object-curly-newline": ["off"],
     "import/no-extraneous-dependencies": ["off"],
     "sonarjs/cognitive-complexity": ["error", 15],

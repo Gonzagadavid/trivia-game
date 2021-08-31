@@ -1,20 +1,3 @@
-/*
-177E89 light blue
-084C61 dark blue
-DB3A34 red
-FFC857 yellow
-323031 black
-*/
-/* 003D5B indigo
-30638E blue
-00798C lightblue
-D1495B pink
-EDAE49 yellow */
-/* 76B041 green
-2E282A black
-FFC914 yellow
-17BEBB lightblue
-E4572E orange */
 .game {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -588,6 +571,13 @@ body {
 
 .config-btn:hover {
   color: rgba(255, 255, 255, 0.733);
+}
+
+@media (max-width: 768px) {
+  .mobile {
+    color: #ececec;
+    text-align: center;
+  }
 }
 
 .feedback-container {

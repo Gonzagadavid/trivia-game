@@ -186,3 +186,11 @@ body {
 .config-btn:hover {
   color: rgba(255, 255, 255, 0.733);
 }
+
+
+@media (max-width: 768px) {
+  .mobile {
+    color: rgb(236, 236, 236);
+    text-align: center;
+  }
+}
