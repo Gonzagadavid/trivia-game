@@ -16,7 +16,10 @@
     "redux-thunk": "^2.3.0",
     "stylized-graphic-component": "^1.0.1"
   },
+  "homepage": "https://ericksilvadev.github.io/trivia-game/",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "cy": "cypress run",
     "cy:open": "cypress open",
     "start": "react-scripts start",
@@ -56,6 +59,7 @@
     "eslint-plugin-react-hooks": "4.2.0",
     "eslint-plugin-react-redux": "3.3.0",
     "eslint-plugin-sonarjs": "0.5.0",
+    "gh-pages": "^3.2.3",
     "jest-localstorage-mock": "2.4.3",
     "mocha": "^7.2.0",
     "mochawesome": "^6.1.1",
