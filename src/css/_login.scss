@@ -15,7 +15,6 @@ body {
 .logo {
   margin-bottom: 7vh;
   width: 500px;
-  z-index: 3;
 }
 
 .login-form {
@@ -27,7 +26,6 @@ body {
   flex-direction: column;
   justify-content: space-around;
   padding: 25px;
-  z-index: 2;
 }
 
 .input-container {
@@ -70,7 +68,11 @@ body {
   color: rgba(116, 116, 116, 0.897);
 }
 
-.question-marks {
+.login {
+  z-index: 1;
+}
+
+.login .question-marks {
   padding: 0;
   margin: 0;
   position: absolute;
@@ -78,6 +80,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: -1;
 }
 
 .question-marks li{

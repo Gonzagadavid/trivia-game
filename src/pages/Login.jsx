@@ -78,7 +78,6 @@ class Login extends Component {
     }
     return (
       <div className="login">
-        <QuestionIcons />
         <img className="logo" src="./images/trivia.png" alt="trivia logo" />
         <Link to="/settings">
           <button
@@ -116,6 +115,7 @@ class Login extends Component {
             </button>
           </div>
         </form>
+        <QuestionIcons />
       </div>
     );
   }
